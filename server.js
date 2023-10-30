@@ -19,3 +19,11 @@ mongoose
 app.listen(process.env.PORT || 3000, () => {
   console.log('Listening on port 3000....');
 });
+
+process.on('unhandledRejection', (err) => {
+  console.log(err.name, err.message);
+  console.log('UNHANDLED REJECTION');
+  server.close(() => {
+    process.exit(1);
+  });
+});
