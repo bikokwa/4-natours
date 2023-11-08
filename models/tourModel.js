@@ -101,6 +101,12 @@ const tourSchema = new mongoose.Schema(
         day: Number,
       },
     ],
+    guides: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
@@ -118,20 +124,17 @@ tourSchema.pre('save', function (next) {
   next();
 });
 
-// tourSchema.pre('save', function (next) {
-//   console.log('Will save document...');
-//   next();
-// });
-
-// tourSchema.post('save', function (doc, next) {
-//   console.log(doc);
-//   next();
-// });
-
 // query midleware
 tourSchema.pre(/^find/, function (next) {
   this.find({ secretTour: { $ne: true } });
   next();
+});
+
+tourSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'guides',
+    select: '-__v -passwordChangedAt',
+  });
 });
 
 // aggregation middleware
