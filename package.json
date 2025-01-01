@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "devStart": "nodemon server.js",
-    "prodStart": "NODE_ENV=production nodemon server.js"
+    "prodStart": "NODE_ENV=production nodemon server.js",
+    "debug": "ndb server.js"
   },
   "author": "Jonas Schmedttmann",
   "license": "ISC",
