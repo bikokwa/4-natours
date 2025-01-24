@@ -7,14 +7,25 @@ const app = express();
 // adds data send in the body to the request object
 app.use(express.json());
 
+app.use((req, res, next) => {
+  next();
+});
+
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
+});
+
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`),
   'utf-8'
 );
 
 const getAllTours = (req, res) => {
+  console.log(req.requestTime);
   res.status(200).json({
     status: 'success',
+    requestedAt: req.requestTime,
     results: tours.length,
     data: {
       tours,
