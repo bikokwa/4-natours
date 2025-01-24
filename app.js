@@ -1,8 +1,12 @@
 const express = require('express');
 const fs = require('fs');
+const morgan = require('morgan');
 
 // express() will add a bunch of methods to app
 const app = express();
+
+// log request object information to console
+app.use(morgan('dev'));
 
 // adds data send in the body to the request object
 app.use(express.json());
