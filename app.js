@@ -9,7 +9,9 @@ const app = express();
 
 // MIDDLEWARES
 // log request object information to console
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 // adds data send in the body to the request object
 app.use(express.json());
 // serve static files
