@@ -2,6 +2,8 @@ const express = require('express');
 const tourController = require('./../controllers/tourController');
 const router = express.Router();
 
+// param middleware has acccess to a fourth parameter, val
+router.param('id', tourController.checkID);
 router
   .route('/')
   .get(tourController.getAllTours)
