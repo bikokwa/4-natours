@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const fs = require('fs');
 const morgan = require('morgan');
@@ -15,7 +16,13 @@ const globalErrorHandler = require('./controllers/errorController');
 // express() will add a bunch of methods to app
 const app = express();
 
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
 // GLOBAL MIDDLEWARES
+
+// serving static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP headers
 app.use(helmet());
@@ -56,9 +63,6 @@ app.use(
   }),
 );
 
-// serving static files
-app.use(express.static(`${__dirname}/public`));
-
 app.use((req, res, next) => {
   next();
 });
@@ -68,6 +72,11 @@ app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
 
   next();
+});
+
+// ROUTES
+app.get('/', (req, res) => {
+  res.status(200).render('base');
 });
 
 app.use('/api/v1/tours', tourRouter);
